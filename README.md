@@ -1,4 +1,4 @@
-# DND Infinity
+# D&RFID
   
 **Intractable Python interface created to read and write RFID signals.**  
   
@@ -15,4 +15,4 @@ Read and Write a formatted RFID tag to create a portable DND character stat list
 * Raspberry Pi running Pi OS  
 * Python 3  
 * SPIdev  
-* FRC522 RFID trag/card reader  
+* MFRC522 RFID tag/card reader  
