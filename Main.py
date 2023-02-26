@@ -13,7 +13,7 @@ import random
 
 
 
-app = App(title="DND RFID",height=800)
+app = App(title="D&RFID",height=800)
 
 
 
@@ -36,7 +36,7 @@ def write2(name,classs,race,xp,st,dex,con,intt,wis,cha,money,armor):
 
 
     #Sets up the area
-    wr2=Window(app,title="DND RFID WRITE2",height=800)
+    wr2=Window(app,title="D&RFID WRITE2",height=800)
 
     person=Box(wr2,width="fill",border=2)
     chars=Text(person,text="Character", size=15)
@@ -164,6 +164,7 @@ def write2(name,classs,race,xp,st,dex,con,intt,wis,cha,money,armor):
             abs=Text(at, text="Calvary Charge d10",size=10)
         if level>19:
             abs=Text(at, text="Noble Smite d100",size=10)
+        h=10*level
     elif classs=="Barbarian":
         if level>0:
             abs=Text(at, text="Fists d4",size=10)
@@ -175,6 +176,7 @@ def write2(name,classs,race,xp,st,dex,con,intt,wis,cha,money,armor):
             abs=Text(at, text="Lesser Rage d10",size=10)
         if level>19:
             abs=Text(at, text="Berserker Rage d100",size=10)
+        h=12*level
     elif classs=="Wizard":
         if level>0:
             abs=Text(at, text="Gust d4",size=10)
@@ -186,6 +188,9 @@ def write2(name,classs,race,xp,st,dex,con,intt,wis,cha,money,armor):
             abs=Text(at, text="Fireball d10",size=10)
         if level>19:
             abs=Text(at, text="Meteor Swarm d100",size=10)
+        h=8*level
+        
+    abs=Text(stats, text="Max Hp {}".format(h),size=10)
 
     kille=PushButton(wr2,text="Exit",command=kill,grid=[1,3])
     
@@ -203,7 +208,7 @@ def readApp():
     
     t=readCharacter()
     var=t.split()
-    re=Window(app,title="DND RFID READ",height=800)
+    re=Window(app,title="D&RFID READ",height=800)
     person=Box(re,width="fill",border=2,height="fill")
     chars=Text(person,text="Character",size=15)
 
@@ -330,6 +335,7 @@ def readApp():
             abs=Text(at, text="Calvary Charge d10",size=10)
         if level>19:
             abs=Text(at, text="Noble Smite d100",size=10)
+        h=12*level
     elif var[6]=="Barbarian":
         if level>0:
             abs=Text(at, text="Fists d4",size=10)
@@ -341,6 +347,7 @@ def readApp():
             abs=Text(at, text="Lesser Rage d10",size=10)
         if level>19:
             abs=Text(at, text="Berserker Rage d100",size=10)
+        h=10*level
     elif var[6]=="Wizard":
         if level>0:
             abs=Text(at, text="Gust d4",size=10)
@@ -352,7 +359,9 @@ def readApp():
             abs=Text(at, text="Fireball d10",size=10)
         if level>19:
             abs=Text(at, text="Meteor Swarm d100",size=10)
-
+        h=8*level
+            
+    abs=Text(stats, text="Max Hp {}".format(h),size=10)
     
     kille=PushButton(re,text="Exit",command=kill)
 
@@ -366,7 +375,7 @@ def readApp():
 def writeApp():
 
     
-    wr=Window(app, title="DND RFID WRITE",height=800)
+    wr=Window(app, title="D&RFID WRITE",height=800)
     
 
     abs=Text(wr,text="\n\n")
