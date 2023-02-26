@@ -10,8 +10,6 @@ from time import sleep
 import sys
 import random
 
-# import RPi.GPIO as GPIO
-# from mfrc522 import SimpleMFRC522
 
 
 
@@ -31,26 +29,31 @@ def kill():
 
 
 def write2(name,classs,race,xp,st,dex,con,intt,wis,cha,money,armor):
-    
+    #Actually write the RFID
+    out=[st,dex,con,intt,wis,cha,classs,race,name,xp,armor,money]
+    export=" ".join(out)
+    writeCharacter(export)
+
+
     #Sets up the area
     wr2=Window(app,title="DND RFID WRITE2",height=800,layout="grid")
 
-    person=Box(wr2,width="fill",align="top",border=2,grid=[0,0])
+    person=Box(wr2,width="fill",border=2,grid=[0,0])
     chars=Text(person,text="Character", size=15)
 
-    stats=Box(wr2,align="top",border=2,width="fill",grid=[0,1])
+    stats=Box(wr2,border=2,width="fill",grid=[0,1])
     stat=Text(stats,text="Stats",size=15)
 
-    abil=Box(wr2,align="top",border=2,width="fill",grid=[0,2])
+    abil=Box(wr2,border=2,width="fill",grid=[0,2])
     abili=Text(abil,text="Ability Scores",size=15)
 
-    ski=Box(wr2,align="top",border=2,width="fill",grid=[1,0])
+    ski=Box(wr2,border=2,width="fill",grid=[1,0])
     skil=Text(ski,text="Skills",size=15)
 
-    mod=Box(wr2,align="Left",border=2,width="fill",grid=[1,1])
+    mod=Box(wr2,border=2,width="fill",grid=[1,1])
     mods=Text(mod,text="Mod",size=15)
 
-    at=Box(wr2,align="Left",border=2,width="fill",grid=[1,2])
+    at=Box(wr2,border=2,width="fill",grid=[1,2])
     att=Text(at,text="Attacks",size=15)
 
     #Puts out Character information
@@ -195,10 +198,8 @@ def write2(name,classs,race,xp,st,dex,con,intt,wis,cha,money,armor):
             abs=Text(at, text="Meteor Swarm d100",size=10)
 
     kille=PushButton(wr2,text="Exit",command=kill,grid=[1,3])
-    out=[st,dex,con,intt,wis,cha,classs,race,name,xp,armor,money]
-    #Actually write the RFID
-    export=" ".join(out)
-    writeCharacter(export)
+    
+    
    
    
     
@@ -225,7 +226,13 @@ def readApp():
     ski=Box(re,align="top",border=2,width="fill")
     skil=Text(ski,text="Skills",size=15)
 
-    
+    mod=Box(re,border=2,width="fill",grid=[1,1])
+    mods=Text(mod,text="Mod",size=15)
+
+    at=Box(re,border=2,width="fill",grid=[1,2])
+    att=Text(at,text="Attacks",size=15)
+
+
     cn=Text(person,text=var[6])
     race=Text(person,text=var[7])
     clas=Text(person,text=var[8])
@@ -243,7 +250,126 @@ def readApp():
     upd=PushButton(re,text="Update",command=up(re))
     kille=PushButton(re,text="Exit",command=kill)
 
+    st=int(var[0]);dex=int(var[1]);con=int(var[2]);intt=int(var[3]);wis=int(var[4]);cha=int(var[5]); xp=var[10]
 
+    Mstr = ((st-(st%2))/2)-5
+    Mdex = ((dex-(dex%2))/2)-5
+    Mcon = ((con-(con%2))/2)-5
+    Mint = ((intt-(intt%2))/2)-5
+    Mwis = ((wis-(wis%2))/2)-5
+    Mcha = ((cha-(cha%2))/2)-5
+
+    if race=="Human":
+      Minv+=1
+    if race=="elf":
+      Mcha = Mcha +1
+    if race=="orc":
+      Mst = Mst +1
+    if race=="Dwarf":
+      Mcon+=1
+
+    Mat = Mstr
+    Mac = Mdex
+    Msn  = Mdex
+    Mar  = Mint
+    Minv  = Mint
+    Mins  = Mwis
+    Mhe  = Mwis
+    Mpec  = Mwis
+    Mpes  = Mcha
+    Mde  = Mcha
+   
+    if var[7] == "Barbarian":
+      Mat = Mat*2 
+      Mpec = Mpec*2
+    if var[7] == "Knight":
+      Mac = Mac*2 
+      Mpes = Mpes*2
+    if var[7] == "Wizard":
+      Mar = Mat*2 
+      Mhe = Mpec*2  
+
+    #The Modifiers printed
+    abs=Text(mod, text="Strength mod {}".format(Mstr),size=10)
+    abs=Text(mod, text="dexterity mod {}".format(Mdex),size=10)
+    abs=Text(mod, text="Constitution mod {}".format(Mcon),size=10)
+    abs=Text(mod, text="Intelligence mod {}".format(Mint),size=10)
+    abs=Text(mod, text="Wisdom mod {}".format(Mwis),size=10)
+    abs=Text(mod, text="Charisma mod {}".format(Mcha),size=10)
+
+    #The Skills Printed
+    abs=Text(ski, text="Atheletics {}".format(Mat),size=10)
+    abs=Text(ski, text="Acrobatics {}".format(Mac),size=10)
+    abs=Text(ski, text="Sneaking {}".format(Msn),size=10)
+    abs=Text(ski, text="Arcana {}".format(Mar),size=10)
+    abs=Text(ski, text="Investigation {}".format(Minv),size=10)
+    abs=Text(ski, text="Insight {}".format(Mins),size=10)
+    abs=Text(ski, text="Healing {}".format(Mhe),size=10)
+    abs=Text(ski, text="Perception {}".format(Mpec),size=10)
+    abs=Text(ski, text="Persuasion {}".format(Mpes),size=10)
+    abs=Text(ski, text="Deception {}".format(Mde),size=10)
+
+    #Calculate level
+    if int(xp)<300:
+      level=2
+    elif int(xp)<900:
+      level=3
+    elif int(xp)<2700:
+      level=4
+    elif int(xp)<6500:
+      level=5
+    elif int(xp)<14000:
+      level=5
+    elif int(xp)<23000:
+      level=6
+    elif int(xp)<34000:
+      level=7
+    elif int(xp)<48000:
+      level=8
+    elif int(xp)<64000:
+      level=9
+    elif int(xp)<85000:
+      level=10
+    elif int(xp)<100000:
+      level=11
+    elif int(xp)<900:
+      level=12
+    abs=Text(stats, text="Level {}".format(level),size=10)
+    
+    #Attacks
+    if classs=="Knight":
+        if level>0:
+            abs=Text(at, text="Pike d4",size=10)
+        if level>4:
+            abs=Text(at, text="Short Sword d6",size=10)
+        if level>9:
+            abs=Text(at, text="Long Sword d8",size=10)
+        if level>14:
+            abs=Text(at, text="Calvary Charge d10",size=10)
+        if level>19:
+            abs=Text(at, text="Noble Smite d100",size=10)
+    elif classs=="Barbarian":
+        if level>0:
+            abs=Text(at, text="Fists d4",size=10)
+        if level>4:
+            abs=Text(at, text="Club Bash d6",size=10)
+        if level>9:
+            abs=Text(at, text="Battleaxe d8",size=10)
+        if level>14:
+            abs=Text(at, text="Lesser Rage d10",size=10)
+        if level>19:
+            abs=Text(at, text="Berserker Rage d100",size=10)
+    elif classs=="Wizard":
+        if level>0:
+            abs=Text(at, text="Gust d4",size=10)
+        if level>4:
+            abs=Text(at, text="Magic Missile d6",size=10)
+        if level>9:
+            abs=Text(at, text="Lightning Bolt d8",size=10)
+        if level>14:
+            abs=Text(at, text="Fireball d10",size=10)
+        if level>19:
+            abs=Text(at, text="Meteor Swarm d100",size=10)
 
 
 
