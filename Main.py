@@ -63,14 +63,6 @@ def write2(name,classs,race,xp,st,dex,con,intt,wis,cha,money,armor):
     x=Text(stats, text="Xp {}".format(xp),size=10)
     abs=Text(stats, text="Armour {}".format(armor),size=10)
     abs=Text(stats, text="Money {}".format(money),size=10)
-
-    #The Ability Score section of inputes all in Text Boxes
-    abs=Text(abil, text="Strength {}".format(st),size=10)
-    abs=Text(abil, text="dexterity {}".format(dex),size=10)
-    abs=Text(abil, text="Constitution {}".format(con),size=10)
-    abs=Text(abil, text="Intelligence {}".format(intt),size=10)
-    abs=Text(abil, text="Wisdom {}".format(wis),size=10)
-    abs=Text(abil, text="Charisma {}".format(cha),size=10)
     
     
     
@@ -106,22 +98,21 @@ def write2(name,classs,race,xp,st,dex,con,intt,wis,cha,money,armor):
     Mde  = Mcha
    
     if classs == "Barbarian":
-      Mat = Mat*2 
-      Mpec = Mpec*2
+      Mat = Mat+2
+      Mpec = Mpec+2
     if classs == "Knight":
-      Mac = Mac*2 
-      Mpes = Mpes*2
+      Mac = Mac+2
+      Mpes = Mpes+2
     if classs == "Wizard":
-      Mar = Mat*2 
-      Mhe = Mpec*2  
+      Mar = Mat+2
+      Mhe = Mpec+2  
 
-    #The Modifiers printed
-    abs=Text(mod, text="Strength mod {}".format(Mstr),size=10)
-    abs=Text(mod, text="dexterity mod {}".format(Mdex),size=10)
-    abs=Text(mod, text="Constitution mod {}".format(Mcon),size=10)
-    abs=Text(mod, text="Intelligence mod {}".format(Mint),size=10)
-    abs=Text(mod, text="Wisdom mod {}".format(Mwis),size=10)
-    abs=Text(mod, text="Charisma mod {}".format(Mcha),size=10)
+    abs=Text(abil, text="Strength {}, Modifier: {}".format(st,Mstr),size=10)
+    abs=Text(abil, text="dexterity {}, Modifier: {}".format(dex,Mdex),size=10)
+    abs=Text(abil, text="Constitution {}, Modifier: {}".format(con,Mcon),size=10)
+    abs=Text(abil, text="Intelligence {}, Modifier: {}".format(intt,Mint),size=10)
+    abs=Text(abil, text="Wisdom {}, Modifier: {}".format(wis,Mwis),size=10)
+    abs=Text(abil, text="Charisma {}, Modifier: {}".format(cha,Mcha),size=10)
 
     #The Skills Printed
     abs=Text(ski, text="Atheletics {}".format(Mat),size=10)
@@ -214,20 +205,17 @@ def readApp():
     t=readCharacter()
     var=t.split()
     re=Window(app,title="DND RFID READ",height=800)
-    person=Box(re,width="fill",align="top",border=2)
+    person=Box(re,width="fill",border=2,grid=[0,0])
     chars=Text(person,text="Character", size=15)
 
-    stats=Box(re,align="top",border=2,width="fill")
+    stats=Box(re,border=2,width="fill",grid=[0,1])
     stat=Text(stats,text="Stats",size=15)
 
-    abil=Box(re,align="top",border=2,width="fill")
+    abil=Box(re,border=2,width="fill",grid=[0,2])
     abili=Text(abil,text="Ability Scores",size=15)
 
-    ski=Box(re,align="top",border=2,width="fill")
+    ski=Box(re,border=2,width="fill",grid=[1,0])
     skil=Text(ski,text="Skills",size=15)
-
-    mod=Box(re,border=2,width="fill",grid=[1,1])
-    mods=Text(mod,text="Mod",size=15)
 
     at=Box(re,border=2,width="fill",grid=[1,2])
     att=Text(at,text="Attacks",size=15)
@@ -240,15 +228,7 @@ def readApp():
     abs=Text(stats, text="Armour {}".format(var[10]),size=10)
     abs=Text(stats, text="Money {}".format(var[11]),size=10)
 
-    #The Ability Score section of inputes all in Text Boxes
-    abs=Text(abil, text="Strength {}".format(var[0]),size=10)
-    abs=Text(abil, text="dexterity {}".format(var[1]),size=10)
-    abs=Text(abil, text="Constitution {}".format(var[2]),size=10)
-    abs=Text(abil, text="Intelligence {}".format(var[3]),size=10)
-    abs=Text(abil, text="Wisdom {}".format(var[4]),size=10)
-    abs=Text(abil, text="Charisma {}".format(var[5]),size=10)
-    upd=PushButton(re,text="Update",command=up(re))
-    kille=PushButton(re,text="Exit",command=kill)
+
 
     st=int(var[0]);dex=int(var[1]);con=int(var[2]);intt=int(var[3]);wis=int(var[4]);cha=int(var[5]); xp=var[10]
 
@@ -280,22 +260,25 @@ def readApp():
     Mde  = Mcha
    
     if var[7] == "Barbarian":
-      Mat = Mat*2 
-      Mpec = Mpec*2
+      Mat = Mat+2 
+      Mpec = Mpec+2
     if var[7] == "Knight":
-      Mac = Mac*2 
-      Mpes = Mpes*2
+      Mac = Mac+2
+      Mpes = Mpes+2
     if var[7] == "Wizard":
-      Mar = Mat*2 
-      Mhe = Mpec*2  
+      Mar = Mat+2 
+      Mhe = Mpec+2  
 
-    #The Modifiers printed
-    abs=Text(mod, text="Strength mod {}".format(Mstr),size=10)
-    abs=Text(mod, text="dexterity mod {}".format(Mdex),size=10)
-    abs=Text(mod, text="Constitution mod {}".format(Mcon),size=10)
-    abs=Text(mod, text="Intelligence mod {}".format(Mint),size=10)
-    abs=Text(mod, text="Wisdom mod {}".format(Mwis),size=10)
-    abs=Text(mod, text="Charisma mod {}".format(Mcha),size=10)
+
+    #The Ability Score section of inputes all in Text Boxes
+    abs=Text(abil, text="Strength {}, Modifier: {}".format(var[0],Mstr),size=10)
+    abs=Text(abil, text="dexterity {}, Modifier: {}".format(var[1],Mdex),size=10)
+    abs=Text(abil, text="Constitution {}, Modifier: {}".format(var[2],Mcon),size=10)
+    abs=Text(abil, text="Intelligence {}, Modifier: {}".format(var[3],Mint),size=10)
+    abs=Text(abil, text="Wisdom {}, Modifier: {}".format(var[4],Mwis),size=10)
+    abs=Text(abil, text="Charisma {}, Modifier: {}".format(var[5],Mcha),size=10)
+    
+
 
     #The Skills Printed
     abs=Text(ski, text="Atheletics {}".format(Mat),size=10)
@@ -337,7 +320,7 @@ def readApp():
     abs=Text(stats, text="Level {}".format(level),size=10)
     
     #Attacks
-    if classs=="Knight":
+    if var[7]=="Knight":
         if level>0:
             abs=Text(at, text="Pike d4",size=10)
         if level>4:
@@ -348,7 +331,7 @@ def readApp():
             abs=Text(at, text="Calvary Charge d10",size=10)
         if level>19:
             abs=Text(at, text="Noble Smite d100",size=10)
-    elif classs=="Barbarian":
+    elif var[7]=="Barbarian":
         if level>0:
             abs=Text(at, text="Fists d4",size=10)
         if level>4:
@@ -359,7 +342,7 @@ def readApp():
             abs=Text(at, text="Lesser Rage d10",size=10)
         if level>19:
             abs=Text(at, text="Berserker Rage d100",size=10)
-    elif classs=="Wizard":
+    elif var[7]=="Wizard":
         if level>0:
             abs=Text(at, text="Gust d4",size=10)
         if level>4:
@@ -370,6 +353,9 @@ def readApp():
             abs=Text(at, text="Fireball d10",size=10)
         if level>19:
             abs=Text(at, text="Meteor Swarm d100",size=10)
+
+    upd=PushButton(re,text="Update",command=up(re))
+    kille=PushButton(re,text="Exit",command=kill)
 
 
 
