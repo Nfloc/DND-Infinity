@@ -5,7 +5,7 @@
 from re import Match
 from types import MappingProxyType
 from guizero import App, Text, PushButton, TextBox, Combo, Box, Window
-from rfid_module import readCharacter, writeCharacter
+#from rfid_module import readCharacter, writeCharacter
 from time import sleep
 import sys
 import random
@@ -17,28 +17,43 @@ import random
 
 app = App(title="DND RFID",height=800)
 
+
+
+
+def up(re):
+    re.update()
+
 def kill():
     app.destroy()
     
 
+
+
+
 def write2(name,classs,race,xp,st,dex,con,intt,wis,cha,money,armor):
     
     #Sets up the area
-    wr2=Window(app,title="DND RFID WRITE2",height=800)
+    wr2=Window(app,title="DND RFID WRITE2",height=800,layout="grid")
 
-    person=Box(wr2,width="fill",align="top",border=2)
+    person=Box(wr2,width="fill",align="top",border=2,grid=[0,0])
     chars=Text(person,text="Character", size=15)
 
-    stats=Box(wr2,align="top",border=2,width="fill")
+    stats=Box(wr2,align="top",border=2,width="fill",grid=[0,1])
     stat=Text(stats,text="Stats",size=15)
 
-    abil=Box(wr2,align="top",border=2,width="fill")
+    abil=Box(wr2,align="top",border=2,width="fill",grid=[0,2])
     abili=Text(abil,text="Ability Scores",size=15)
 
-    ski=Box(wr2,align="top",border=2,width="fill")
+    ski=Box(wr2,align="top",border=2,width="fill",grid=[1,0])
     skil=Text(ski,text="Skills",size=15)
 
-    
+    mod=Box(wr2,align="Left",border=2,width="fill",grid=[1,1])
+    mods=Text(mod,text="Mod",size=15)
+
+    at=Box(wr2,align="Left",border=2,width="fill",grid=[1,2])
+    att=Text(at,text="Attacks",size=15)
+
+    #Puts out Character information
     cn=Text(person,text=name)
     race=Text(person,text=race)
     clas=Text(person,text=classs)
@@ -97,13 +112,22 @@ def write2(name,classs,race,xp,st,dex,con,intt,wis,cha,money,armor):
       Mar = Mat*2 
       Mhe = Mpec*2  
 
+    #The Modifiers printed
+    abs=Text(mod, text="Strength mod {}".format(Mstr),size=10)
+    abs=Text(mod, text="dexterity mod {}".format(Mdex),size=10)
+    abs=Text(mod, text="Constitution mod {}".format(Mcon),size=10)
+    abs=Text(mod, text="Intelligence mod {}".format(Mint),size=10)
+    abs=Text(mod, text="Wisdom mod {}".format(Mwis),size=10)
+    abs=Text(mod, text="Charisma mod {}".format(Mcha),size=10)
+
+    #The Skills Printed
     abs=Text(ski, text="Atheletics {}".format(Mat),size=10)
     abs=Text(ski, text="Acrobatics {}".format(Mac),size=10)
-    #IDK this abbreviation
+    abs=Text(ski, text="Sneaking {}".format(Msn),size=10)
     abs=Text(ski, text="Arcana {}".format(Mar),size=10)
     abs=Text(ski, text="Investigation {}".format(Minv),size=10)
     abs=Text(ski, text="Insight {}".format(Mins),size=10)
-    #IDK this abbreviation
+    abs=Text(ski, text="Healing {}".format(Mhe),size=10)
     abs=Text(ski, text="Perception {}".format(Mpec),size=10)
     abs=Text(ski, text="Persuasion {}".format(Mpes),size=10)
     abs=Text(ski, text="Deception {}".format(Mde),size=10)
@@ -135,10 +159,45 @@ def write2(name,classs,race,xp,st,dex,con,intt,wis,cha,money,armor):
       level=12
     abs=Text(stats, text="Level {}".format(level),size=10)
     
-    kille=PushButton(wr2,text="Exit",command=kill)
+    #Attacks
+    if classs=="Knight":
+        if level>0:
+            abs=Text(at, text="Pike d4",size=10)
+        if level>4:
+            abs=Text(at, text="Short Sword d6",size=10)
+        if level>9:
+            abs=Text(at, text="Long Sword d8",size=10)
+        if level>14:
+            abs=Text(at, text="Calvary Charge d10",size=10)
+        if level>19:
+            abs=Text(at, text="Noble Smite d100",size=10)
+    elif classs=="Barbarian":
+        if level>0:
+            abs=Text(at, text="Fists d4",size=10)
+        if level>4:
+            abs=Text(at, text="Club Bash d6",size=10)
+        if level>9:
+            abs=Text(at, text="Battleaxe d8",size=10)
+        if level>14:
+            abs=Text(at, text="Lesser Rage d10",size=10)
+        if level>19:
+            abs=Text(at, text="Berserker Rage d100",size=10)
+    elif classs=="Wizard":
+        if level>0:
+            abs=Text(at, text="Gust d4",size=10)
+        if level>4:
+            abs=Text(at, text="Magic Missile d6",size=10)
+        if level>9:
+            abs=Text(at, text="Lightning Bolt d8",size=10)
+        if level>14:
+            abs=Text(at, text="Fireball d10",size=10)
+        if level>19:
+            abs=Text(at, text="Meteor Swarm d100",size=10)
 
+    kille=PushButton(wr2,text="Exit",command=kill,grid=[1,3])
+    out=[st,dex,con,intt,wis,cha,classs,race,name,xp,armor,money]
     #Actually write the RFID
-    export=st+" "+dex+" "+con+" "+intt+" "+wis+" "+cha
+    export=" ".join(out)
     writeCharacter(export)
    
    
@@ -181,6 +240,7 @@ def readApp():
     abs=Text(abil, text="Intelligence {}".format(var[3]),size=10)
     abs=Text(abil, text="Wisdom {}".format(var[4]),size=10)
     abs=Text(abil, text="Charisma {}".format(var[5]),size=10)
+    upd=PushButton(re,text="Update",command=up(re))
     kille=PushButton(re,text="Exit",command=kill)
 
 
@@ -231,6 +291,9 @@ def writeApp():
 
     fwrite=PushButton(wr,text="WRITE!",command=lambda:write2(cn.value,clas.value,race.value,xp.value,st.value,dex.value,con.value,intt.value,wis.value,cha.value,money.value,armor.value))
     
+
+
+
 def Dice2(nds):
     
     Dc2=Window(app,title="Dice2")
@@ -246,10 +309,12 @@ def Dice():
     fwrite=PushButton(Dc,text="Roll!",command=lambda:Dice2(int(nds.value)))
     
 
+
+
+
 intro = Text(app,text="RFID - Interactive Interface",size=30)
-read = PushButton(app, text="Read Figure",width=35,height=10)
+read = PushButton(app, text="Read Figure",width=35,height=10,command=readApp)
 write = PushButton(app, text="Write to Figure",command=writeApp,width=35,height=10)
 Dice_Roll = PushButton(app, text="Roll dice",command=Dice,width=35,height=10)
 
 app.display()   
-
