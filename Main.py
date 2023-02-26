@@ -52,7 +52,7 @@ def write2(name,classs,race,xp,st,dex,con,intt,wis,cha,money,armor):
 
     
 
-    at=Box(wr2,border=2,width="fill",grid=[1,2],height="fill")
+    at=Box(wr2,border=2,width="fill",height="fill")
     att=Text(at,text="Attacks",size=15)
 
     #Puts out Character information
@@ -192,7 +192,7 @@ def write2(name,classs,race,xp,st,dex,con,intt,wis,cha,money,armor):
         
     abs=Text(stats, text="Max Hp {}".format(h),size=10)
 
-    kille=PushButton(wr2,text="Exit",command=kill,grid=[1,3])
+    kille=PushButton(wr2,text="Exit",command=kill)
     
     
    
