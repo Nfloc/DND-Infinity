@@ -36,24 +36,23 @@ def write2(name,classs,race,xp,st,dex,con,intt,wis,cha,money,armor):
 
 
     #Sets up the area
-    wr2=Window(app,title="DND RFID WRITE2",height=800,layout="grid")
+    wr2=Window(app,title="DND RFID WRITE2",height=800)
 
-    person=Box(wr2,width="fill",border=2,grid=[0,0])
+    person=Box(wr2,width="fill",border=2)
     chars=Text(person,text="Character", size=15)
 
-    stats=Box(wr2,border=2,width="fill",grid=[0,1])
+    stats=Box(wr2,border=2,width="fill",height="fill")
     stat=Text(stats,text="Stats",size=15)
 
-    abil=Box(wr2,border=2,width="fill",grid=[0,2])
+    abil=Box(wr2,border=2,width="fill",height="fill")
     abili=Text(abil,text="Ability Scores",size=15)
 
-    ski=Box(wr2,border=2,width="fill",grid=[1,0])
+    ski=Box(wr2,border=2,width="fill",height="fill")
     skil=Text(ski,text="Skills",size=15)
 
-    mod=Box(wr2,border=2,width="fill",grid=[1,1])
-    mods=Text(mod,text="Mod",size=15)
+    
 
-    at=Box(wr2,border=2,width="fill",grid=[1,2])
+    at=Box(wr2,border=2,width="fill",grid=[1,2],height="fill")
     att=Text(at,text="Attacks",size=15)
 
     #Puts out Character information
@@ -205,19 +204,19 @@ def readApp():
     t=readCharacter()
     var=t.split()
     re=Window(app,title="DND RFID READ",height=800)
-    person=Box(re,width="fill",border=2,grid=[0,0])
-    chars=Text(person,text="Character", size=15)
+    person=Box(re,width="fill",border=2,height="fill")
+    chars=Text(person,text="Character",size=15)
 
-    stats=Box(re,border=2,width="fill",grid=[0,1])
+    stats=Box(re,border=2,width="fill",height="fill")
     stat=Text(stats,text="Stats",size=15)
 
-    abil=Box(re,border=2,width="fill",grid=[0,2])
+    abil=Box(re,border=2,width="fill",height="fill")
     abili=Text(abil,text="Ability Scores",size=15)
 
-    ski=Box(re,border=2,width="fill",grid=[1,0])
+    ski=Box(re,border=2,width="fill",height="fill")
     skil=Text(ski,text="Skills",size=15)
 
-    at=Box(re,border=2,width="fill",grid=[1,2])
+    at=Box(re,border=2,width="fill",height="fill")
     att=Text(at,text="Attacks",size=15)
 
 
@@ -259,13 +258,13 @@ def readApp():
     Mpes  = Mcha
     Mde  = Mcha
    
-    if var[7] == "Barbarian":
+    if var[6] == "Barbarian":
       Mat = Mat+2 
       Mpec = Mpec+2
-    if var[7] == "Knight":
+    if var[6] == "Knight":
       Mac = Mac+2
       Mpes = Mpes+2
-    if var[7] == "Wizard":
+    if var[6] == "Wizard":
       Mar = Mat+2 
       Mhe = Mpec+2  
 
@@ -320,7 +319,7 @@ def readApp():
     abs=Text(stats, text="Level {}".format(level),size=10)
     
     #Attacks
-    if var[7]=="Knight":
+    if var[6]=="Knight":
         if level>0:
             abs=Text(at, text="Pike d4",size=10)
         if level>4:
@@ -331,7 +330,7 @@ def readApp():
             abs=Text(at, text="Calvary Charge d10",size=10)
         if level>19:
             abs=Text(at, text="Noble Smite d100",size=10)
-    elif var[7]=="Barbarian":
+    elif var[6]=="Barbarian":
         if level>0:
             abs=Text(at, text="Fists d4",size=10)
         if level>4:
@@ -342,7 +341,7 @@ def readApp():
             abs=Text(at, text="Lesser Rage d10",size=10)
         if level>19:
             abs=Text(at, text="Berserker Rage d100",size=10)
-    elif var[7]=="Wizard":
+    elif var[6]=="Wizard":
         if level>0:
             abs=Text(at, text="Gust d4",size=10)
         if level>4:
@@ -354,7 +353,7 @@ def readApp():
         if level>19:
             abs=Text(at, text="Meteor Swarm d100",size=10)
 
-    upd=PushButton(re,text="Update",command=up(re))
+    
     kille=PushButton(re,text="Exit",command=kill)
 
 
@@ -429,4 +428,4 @@ read = PushButton(app, text="Read Figure",width=35,height=10,command=readApp)
 write = PushButton(app, text="Write to Figure",command=writeApp,width=35,height=10)
 Dice_Roll = PushButton(app, text="Roll dice",command=Dice,width=35,height=10)
 
-app.display()   
+app.display() 
