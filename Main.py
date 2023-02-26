@@ -5,7 +5,7 @@
 from re import Match
 from types import MappingProxyType
 from guizero import App, Text, PushButton, TextBox, Combo, Box, Window
-#from rfid_module import readCharacter, writeCharacter
+from rfid_module import readCharacter, writeCharacter
 from time import sleep
 import sys
 import random
